@@ -4,8 +4,8 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: false,  // Disattivato per evitare conflitti di sessione tra dispositivi
   workers: 1,            // Forza l'esecuzione di un solo browser alla volta
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  forbidOnly: false,     // Disattivato in locale
+  retries: 0,            // Nessun tentativo di ripristino automatico necessario in locale
   reporter: 'html',
   use: {
     // L'URL dove gira la tua app Angular in locale
@@ -33,7 +33,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run start', 
     url: 'http://localhost:4200',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true, // Riutilizza il server se lo hai già acceso tu con ng serve
     timeout: 120 * 1000,
   },
 });
