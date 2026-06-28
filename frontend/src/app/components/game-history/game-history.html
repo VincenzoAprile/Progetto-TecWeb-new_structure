@@ -1,0 +1,47 @@
+<!doctype html>
+<div class="main-wrapper">
+  <div class="history-card">
+    
+    <div class="history-header">
+      <button type="button" (click)="goBack()" class="btn-back">Menu</button>
+      <h2>Partite Concluse</h2>
+    </div>
+
+    <div class="separator-line"></div>
+
+    <div class="history-list">
+      
+      @if (historyMatches.length) {
+        
+        @for (match of historyMatches; track $index) {
+          <div class="history-item">
+            <div class="item-header">
+              <span class="article-title">Titolo: <strong>{{ match.title }}</strong></span>
+              <span class="game-status" [class.success]="match.won" [class.failed]="!match.won">
+                {{ match.won ? 'Completata' : 'Abbandonata' }}
+              </span>
+            </div>
+            
+            <div class="preview-text-box">
+              <p class="preview-text">
+                {{ match.previewText }}
+              </p>
+            </div>
+            
+            <div class="item-stats">
+              <span>Tentativi: <strong>{{ match.attempts }}</strong></span>
+              <span>Tempo: <strong>{{ match.time }}</strong></span>
+            </div>
+          </div>
+        }
+
+      } @else {
+        <div class="empty-history-state">
+          <p>Non hai ancora completato nessuna partita. Corri a sfidare Wikipedia!</p>
+        </div>
+      }
+
+    </div>
+
+  </div>
+</div>

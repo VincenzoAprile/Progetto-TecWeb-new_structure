@@ -1,0 +1,59 @@
+<!doctype html>
+<div class="main-wrapper">
+  <div class="leaderboard-card">
+    
+    <div class="header">
+      <h2>Classifica Generale</h2>
+      <p>I migliori giocatori di WikiBlank ordinati per vittorie e tempo medio</p>
+    </div>
+
+    <div class="separator-line"></div>
+
+    <div class="table-container">
+      @if (leaderboardRows.length) {
+        <table>
+          <thead>
+            <tr>
+              <th>Posizione</th>
+              <th>Giocatore</th>
+              <th>Partite Completate (Successo)</th>
+              <th>Tempo Medio di Risoluzione</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of leaderboardRows; track $index) {
+              <tr [class.podium-first]="$index === 0" 
+                  [class.podium-second]="$index === 1" 
+                  [class.podium-third]="$index === 2" 
+                  [class.user-current]="row.username === username">
+                <td class="position-cell">
+                  <span class="rank-badge">
+                    @if ($index === 0) {1}
+                    @else if ($index === 1) {2}
+                    @else if ($index === 2) {3}
+                    @else { {{ $index + 1 }}° }
+                  </span>
+                </td>
+                <td class="user-cell">
+                  <strong class="username-text" [title]="row.username">{{ row.username }}</strong>
+                </td>
+                <td class="stat-cell">{{ row.gamesWon }}</td>
+                <td class="time-cell">{{ row.averageTime }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="empty-state">
+          <p>Nessun utente autenticato ha ancora completato una partita con successo.</p>
+          <button type="button" (click)="goToMenu()" class="btn-play-now">Inizia a giocare!</button>
+        </div>
+      }
+    </div>
+
+    <div class="footer-actions">
+      <button type="button" (click)="goToMenu()" class="btn-back">Torna al Menu</button>
+    </div>
+
+  </div>
+</div>

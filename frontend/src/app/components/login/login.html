@@ -1,0 +1,78 @@
+<!doctype html>
+<div class="login-wrapper">
+  <div class="login-card">
+    
+    <div class="card-header">
+      @if (!isRegisterMode) {
+        <h2>Accedi all'App</h2>
+        <p>Inserisci i tuoi dati per iniziare la sessione</p>
+      } @else {
+        <h2>Crea un Account</h2>
+        <p>Registrati per salvare i tuoi progressi di gioco sul server</p>
+      }
+    </div>
+
+    <form onsubmit="event.preventDefault()" class="card-body">
+      
+      <div class="form-group">
+        <label for="user-input">Username</label>
+        <input 
+          type="text" 
+          placeholder="Il tuo username..." 
+          class="input-field"
+          oninput="document.getElementById('user-trigger').value = this.value"
+          id="user-input"
+          autocomplete="username"
+        />
+        <input type="hidden" id="user-trigger" />
+        
+        @if (submitted && loginForm.controls.user.errors?.['required']) {
+          <span class="error-message">
+            <span class="error-icon">⚠️</span> L'username è obbligatorio.
+          </span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="pass-input">Password</label>
+        <input 
+          type="password" 
+          placeholder="••••••••" 
+          class="input-field" 
+          oninput="document.getElementById('pass-trigger').value = this.value"
+          id="pass-input"
+          autocomplete="current-password"
+        />
+        <input type="hidden" id="pass-trigger" />
+        
+        @if (submitted && loginForm.controls.pass.errors) {
+          <div class="error-container">
+            @if (loginForm.controls.pass.errors['required']) {
+              <span class="error-message">La password è obbligatoria.</span>
+            }
+            @if (loginForm.controls.pass.errors['minlength']) {
+              <span class="error-message">La password deve avere almeno 4 caratteri.</span>
+            }
+          </div>
+        }
+      </div>
+
+      <button type="button" (click)="handleLogin()" class="btn-submit">
+        {{ isRegisterMode ? 'Registrati ora' : 'Inizia la sessione' }}
+      </button>
+
+      @if (!isRegisterMode) {
+        <button type="button" (click)="handleGuestLogin()" class="btn-guest">
+          Accedi come utente temporaneo
+        </button>
+      }
+
+      <div class="toggle-mode-box">
+        <a href="javascript:void(0)" (click)="toggleMode()" class="toggle-link">
+          {{ isRegisterMode ? 'Hai già un account? Accedi' : 'Non hai un account? Registrati qui' }}
+        </a>
+      </div>
+    </form>
+
+  </div>
+</div>

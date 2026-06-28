@@ -1,0 +1,34 @@
+<!doctype html>
+<div class="main-wrapper">
+  <div class="menu-card">
+    
+    <div class="user-bar">
+      <span class="user-welcome">Benvenuto in <strong class="brand-accent">WikiBlank</strong></span>
+      <button type="button" (click)="handleLogout()" class="btn-logout">Esci</button>
+    </div>
+
+    <div class="separator-line"></div>
+
+    <div class="menu-header">
+      <h1>WIKIBLANK</h1>
+      <p>Piattaforma di gioco basata su Wikipedia</p>
+    </div>
+
+    <div class="menu-options">
+      
+      <button type="button" [disabled]="isGuest" (click)="startNewGame()" class="btn-menu btn-primary">
+        Nuova Partita
+      </button>
+
+      <button type="button" (click)="goToHistory()" class="btn-menu btn-secondary">
+        Raccolta Partite Concluse
+      </button>
+
+      <button type="button" [disabled]="isGuest" (click)="goToLeaderboard()" class="btn-menu btn-secondary">
+        Visualizza Classifica
+      </button>
+
+    </div>
+
+  </div>
+</div>

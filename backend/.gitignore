@@ -1,0 +1,15 @@
+# Node dependencies
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Compiled output & Logs
+/dist
+/logs
+*.log
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

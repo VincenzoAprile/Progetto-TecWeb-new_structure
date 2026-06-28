@@ -1,0 +1,87 @@
+<!doctype html>
+<div class="main-wrapper">
+  
+  @if (gameState === 'SELECT') {
+    <div class="game-card text-center">
+      <div class="game-header-simple">
+        <h2>Scegli una Categoria</h2>
+        <p>Seleziona un pool di pagine da Wikipedia per iniziare la sfida</p>
+      </div>
+      <div class="category-buttons">
+        <button type="button" (click)="selectCategory('Videogiochi')" class="btn-cat btn-games">Videogiochi</button>
+        <button type="button" (click)="selectCategory('Serie_animate')" class="btn-cat btn-anime">Serie Animate</button>
+        <button type="button" (click)="selectCategory('Informatica')" class="btn-cat btn-code">Programmazione</button>
+      </div>
+      
+      <button type="button" (click)="goToMenu()" class="btn-back-menu">Torna al Menu</button>
+    </div>
+  }
+
+  @if (gameState === 'LOADING') {
+    <div class="game-card text-center">
+      <div class="loader-container">
+        <div class="spinner"></div>
+        <p>Interrogando l'API di Wikipedia...</p>
+        <p class="sub-loader">Sto estraendo un articolo a sorte per te</p>
+      </div>
+    </div>
+  }
+
+  @if (gameState === 'PLAYING') {
+    <div class="game-card">
+      
+      <div class="game-header">
+        <button type="button" (click)="abandonGame()" class="btn-abandon">Abbandona</button>
+        <h2>Fase di Gioco</h2>
+      </div>
+
+      <div class="separator-line"></div>
+
+      <div class="game-stats">
+        <span>Tentativi: <strong>{{ attempts }}</strong></span>
+        <span>Tempo: <strong>{{ displayTime }}</strong></span>
+      </div>
+
+      <div class="wiki-text-box">
+        @for (token of processedTokensHTML; track $index) {
+          <span [class.guessed-word]="isTokenGuessed(token)">{{ token }}</span>
+        }
+      </div>
+
+      <div class="action-form">
+        <input 
+          type="text" 
+          placeholder="Prova a indovinare una parola..." 
+          class="input-field"
+          id="word-guess"
+        />
+        <button type="button" (click)="submitWord()" class="btn-action btn-submit">
+          Tenta
+        </button>
+      </div>
+
+      <div class="title-form">
+        <input 
+          type="text" 
+          placeholder="Indovina il TITOLO dell'articolo..." 
+          class="input-field title-field"
+          id="title-guess"
+        />
+        <button type="button" (click)="submitTitle()" class="btn-action btn-victory"> Risolvi Titolo </button>
+      </div>
+
+    </div>
+  }
+
+  @if (gameState === 'WIN' || gameState === 'LOSE') {
+    <app-game-result 
+      [resultstate]="gameState === 'WIN' ? 'WIN' : 'LOSE'"
+      [title]="originalTitle"
+      [attempts]="attempts"
+      [displaytime]="displayTime"
+      (playagain)="gameState = 'SELECT'"
+      (mainmenu)="goToMenu()">
+    </app-game-result>
+  }
+
+</div>

@@ -1,0 +1,138 @@
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 1rem;
+
+  .menu-card {
+    width: 100%;
+    max-width: 460px;
+    background-color: #1e2430;
+    border: 1px solid #334155;
+    border-radius: 16px; /* Coerente con la Login Card */
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(255, 255, 255, 0.05);
+
+    .user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+
+      .user-welcome {
+        color: #94a3b8;
+        font-size: 0.95rem;
+
+        .brand-accent {
+          color: #3b82f6;
+          font-weight: 600;
+        }
+      }
+
+      .btn-logout {
+        background-color: transparent;
+        color: #94a3b8;
+        border: 1px solid #334155;
+        padding: 0.45rem 0.9rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+          color: #ef4444;
+          border-color: #ef4444;
+        }
+      }
+    }
+
+    .separator-line {
+      border-top: 1px solid #334155;
+      margin-bottom: 2.5rem;
+    }
+
+    .menu-header {
+      text-align: center;
+      margin-bottom: 3rem;
+
+      h1 {
+        background: linear-gradient(135deg, #ffffff 40%, #93c5fd);
+        -webkit-background-clip: text; /* Per Chrome, Safari, Edge */
+        background-clip: text;          /* Proprietà standard per compatibilità totale */
+        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: 2px;
+      }
+
+      p {
+        color: #94a3b8;
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+
+    .menu-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .btn-menu {
+        width: 100%;
+        padding: 1.1rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        text-align: center;
+        box-sizing: border-box;
+
+        &.btn-primary {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          color: #ffffff;
+          border: none;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+
+          &:hover:not(:disabled) {
+            filter: brightness(1.1);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3);
+          }
+        }
+
+        &.btn-secondary {
+          background-color: #0f172a;
+          color: #cbd5e1;
+          border: 1px solid #334155;
+
+          &:hover:not(:disabled) {
+            background-color: #1e293b;
+            color: #ffffff;
+            border-color: #475569;
+          }
+        }
+
+        &:active:not(:disabled) {
+          transform: scale(0.98);
+        }
+
+        /* Effetto premium per le opzioni bloccate agli ospiti (Guest) */
+        &:disabled {
+          background-color: #0f172a !important;
+          color: #475569 !important;
+          border: 1px dashed #334155 !important;
+          cursor: not-allowed;
+          box-shadow: none !important;
+          transform: none !important;
+          opacity: 0.5;
+          position: relative;
+        }
+      }
+    }
+  }
+}

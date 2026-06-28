@@ -1,0 +1,35 @@
+<!doctype html>
+<div class="game-card text-center end-card" [class.win-card]="resultstate === 'WIN'" [class.lose-card]="resultstate === 'LOSE'">
+  
+  @if (resultstate === 'WIN') {
+    <h2>Vittoria Strabiliante!</h2>
+    <p class="end-subtitle">Hai risolto l'enigma di WikiBlank!</p>
+    <div class="solution-box">
+      Articolo: <strong>{{ title }}</strong>
+    </div>
+  } @else {
+    <h2>Partita Terminata</h2>
+    <p class="end-subtitle">Sarà per la prossima volta! La soluzione era:</p>
+    <div class="solution-box alert-box">
+      Articolo: <strong>{{ title }}</strong>
+    </div>
+  }
+
+  <div class="end-stats">
+    <div class="stat-box">
+      <span class="label">{{ resultstate === 'WIN' ? 'Tentativi totali' : 'Tentativi effettuati' }}</span>
+      <span class="value">{{ attempts }}</span>
+    </div>
+    <div class="stat-box">
+      <span class="label">{{ resultstate === 'WIN' ? 'Tempo impiegato' : 'Tempo di gioco' }}</span>
+      <span class="value">{{ displaytime }}</span>
+    </div>
+  </div>
+
+  <button type="button" (click)="onPlayAgain()" class="btn-action btn-submit btn-block">
+    {{ resultstate === 'WIN' ? 'Gioca Ancora' : 'Riprova la Sfida' }}
+  </button>
+  
+  <button type="button" (click)="onMainMenu()" class="btn-back-menu btn-block-menu">Torna al Menu</button>
+
+</div>

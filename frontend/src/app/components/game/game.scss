@@ -1,0 +1,258 @@
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 3rem 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+
+  .game-card {
+    width: 100%;
+    max-width: 560px;
+    background-color: #1e2430;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(255, 255, 255, 0.05);
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+
+      .btn-abandon {
+        background-color: transparent;
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        padding: 0.45rem 0.9rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+          border-color: #ef4444;
+          color: #ef4444;
+        }
+      }
+
+      h2 {
+        color: #ffffff;
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+    }
+
+    .separator-line {
+      border-top: 1px solid #334155;
+      margin-bottom: 1.75rem;
+    }
+
+    .game-stats {
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+      background-color: #0f172a;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+
+      strong {
+        color: #ffffff;
+      }
+    }
+
+    .wiki-text-box {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      padding: 1.5rem;
+      border-radius: 12px;
+      color: #ffffff;
+      min-height: 140px;
+      margin-bottom: 2.25rem;
+      line-height: 1.8;
+      letter-spacing: 1.5px;
+      font-size: 1.05rem;
+      word-break: break-word;
+
+      /* =======================================================
+          EFFETTO EVIDENZIATORE BIANCO PER LE PAROLE INDOVINATE
+         ======================================================= */
+      .guessed-word {
+        background-color: #ffffff !important;
+        color: #1e2430 !important;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 700;
+        display: inline-block;
+        margin: 0 1px;
+        animation: popIn 0.3s ease-out;
+      }
+    }
+
+    .action-form, .title-form {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+
+      .input-field {
+        flex: 1;
+        padding: 0.85rem 1rem;
+        background-color: #0f172a;
+        border: 1px solid #334155;
+        color: #ffffff;
+        border-radius: 8px;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &::placeholder {
+          color: #475569;
+        }
+
+        &:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+      }
+
+      .btn-action {
+        padding: 0.85rem 1.75rem;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: filter 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+
+    .action-form {
+      .btn-submit {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        &:hover { filter: brightness(1.1); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.3); }
+      }
+    }
+
+    .title-form {
+      margin-top: 2rem;
+      border-top: 1px dashed #334155;
+      padding-top: 2rem;
+
+      .title-field {
+        &:focus {
+          border-color: #10b981;
+          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+      }
+
+      .btn-victory {
+        background: linear-gradient(135deg, #10b981, #059669);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        &:hover { filter: brightness(1.1); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3); }
+      }
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .game-header-simple {
+      margin-bottom: 2.25rem;
+      h2 { color: #ffffff; font-size: 1.85rem; font-weight: 700; margin: 0 0 0.5rem 0; }
+      p { color: #94a3b8; font-size: 0.95rem; margin: 0; }
+    }
+
+    .category-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.25rem;
+
+      .btn-cat {
+        width: 100%;
+        padding: 1.25rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          filter: brightness(1.1);
+        }
+
+        &:active {
+          transform: scale(0.99);
+        }
+
+        &.btn-games { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); } 
+        &.btn-anime { background: linear-gradient(135deg, #ec4899, #be185d); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2); } 
+        &.btn-code { background: linear-gradient(135deg, #10b981, #065f46); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); } 
+      }
+    }
+
+    .btn-back-menu {
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #e2e8f0;
+        border-color: #475569;
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+    }
+
+    .loader-container {
+      padding: 3.5rem 1rem;
+      color: #e2e8f0;
+
+      .spinner {
+        width: 44px;
+        height: 44px;
+        border: 4px solid #334155;
+        border-top: 4px solid #3b82f6;
+        border-radius: 50%;
+        margin: 0 auto 1.75rem auto;
+        animation: spin 1s linear infinite;
+      }
+
+      p { margin: 0; font-weight: 600; font-size: 1.05rem; }
+      .sub-loader { color: #64748b; font-size: 0.9rem; margin-top: 0.6rem; font-weight: 400; }
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
