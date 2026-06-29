@@ -27,9 +27,7 @@
         <input type="hidden" id="user-trigger" />
         
         @if (submitted && loginForm.controls.user.errors?.['required']) {
-          <span class="error-message">
-            <span class="error-icon">⚠️</span> L'username è obbligatorio.
-          </span>
+          <span class="error-message"> L'username è obbligatorio. </span>
         }
       </div>
 
