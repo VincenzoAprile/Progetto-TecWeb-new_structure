@@ -43,7 +43,7 @@
       </div>
 
       <div class="wiki-text-box">
-        @for (token of processedTokensHTML; track $index) {
+        @for (token of processedTokensHTML; track token + $index) {
           <span [class.guessed-word]="isTokenGuessed(token)">{{ token }}</span>
         }
       </div>

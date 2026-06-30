@@ -4,12 +4,12 @@ import { Wikipedia } from '../../services/wikipedia';
 import { LeaderboardService } from '../../services/leaderboard';
 import { GameService } from '../../services/game';
 import { GameResult } from '../game-result/game-result';
-import { CommonModule } from '@angular/common'; // IMPORTANTE: Aggiunto per poter usare le direttive base nell'HTML se servono
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [GameResult, CommonModule], // Aggiunto CommonModule
+  imports: [GameResult, CommonModule],
   templateUrl: './game.html',
   styleUrl: './game.scss'
 })
@@ -28,7 +28,6 @@ export class Game implements OnInit, OnDestroy {
   guessedWords: string[] = [];
   username: string = 'Giocatore'; 
 
-  // Proprietà di comodo per esporre i token formattati all'HTML
   processedTokensHTML: string[] = [];
 
   constructor(
@@ -55,17 +54,17 @@ export class Game implements OnInit, OnDestroy {
           if (confirm(`Bentornato ${loggedInUsername}! C'è una partita interrotta salvata sul server. Vuoi riprenderla?`)) {
             this.gameState = 'PLAYING';
             this.selectedCategoryName = savedGame.category;
-            this.originalTitle = savedGame.title;
-            this.originalText = savedGame.originalText;
-            this.obscuredText = savedGame.obscuredText;
-            this.attempts = savedGame.attempts;
-            this.secondsElapsed = savedGame.secondsElapsed;
-            this.guessedWords = savedGame.guessedWords;
+            this.originalTitle = savedGame.title || '';
+            this.originalText = savedGame.originalText || '';
+            this.obscuredText = savedGame.obscuredText || '';
+            this.attempts = savedGame.attempts || 0;
+            this.secondsElapsed = savedGame.secondsElapsed || 0;
+            this.guessedWords = savedGame.guessedWords || [];
             
             this.username = loggedInUsername; 
 
             this.startTimer(); 
-            this.updateGameText(); // Rigenera i token grafici per l'HTML
+            this.updateGameText(); 
             this.cdr.detectChanges();
             return;
           } else {
@@ -130,15 +129,20 @@ export class Game implements OnInit, OnDestroy {
     fetch(url)
       .then(response => response.json())
       .then(async data => {
-        const pages = data.query.pages;
-        const pageId = Object.keys(pages)[0];
+        const pages = data?.query?.pages;
+        if (!pages) throw new Error('Risposta API non valida o malformata');
         
-        this.originalTitle = pages[pageId].title;
+        const pageId = Object.keys(pages)[0];
+        const pageData = pages[pageId];
+        
+        this.originalTitle = pageData?.title || 'Titolo Sconosciuto';
         if (this.originalTitle.includes('(')) {
           this.originalTitle = this.originalTitle.split('(')[0].trim();
         }
 
-        this.originalText = pages[pageId].extract.substring(0, 500);
+        // 🛡️ CONTROMISURA ANTI-CRASH COMPORTAMENTO ASINCRONO
+        const rawExtract = pageData?.extract || pageData?.text || pageData?.content || '';
+        this.originalText = rawExtract.substring(0, 500);
         
         this.updateGameText();
         this.gameState = 'PLAYING';
@@ -156,7 +160,6 @@ export class Game implements OnInit, OnDestroy {
               secondsElapsed: this.secondsElapsed,
               guessedWords: this.guessedWords
             });
-            console.log('Partita iniziale memorizzata sul server.');
           } catch (err) {
             console.error('Errore nel salvataggio iniziale della partita:', err);
           }
@@ -165,18 +168,22 @@ export class Game implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       })
       .catch(err => {
-        console.error(err);
+        console.error("Fallimento caricamento articolo:", err);
         this.gameState = 'SELECT';
         this.cdr.detectChanges();
       });
   }
 
-  /**
-   * Aggiorna sia il testo oscurato completo che l'array di token strutturati per la resa grafica
-   */
   updateGameText() {
+    if (!this.originalText) {
+      this.processedTokensHTML = [];
+      this.obscuredText = '';
+      return;
+    }
+
     const tokens = this.originalText.split(/(\s+|,|\.|\(|\)|;|:|-|'|’)/);
     const processedTokens = tokens.map(token => {
+      if (!token) return '';
       if (/^(\s+|,|\.|\(|\)|;|:|-|'|’)+$/.test(token)) return token;
       if (/^\d+$/.test(token)) return token;
 
@@ -190,16 +197,13 @@ export class Game implements OnInit, OnDestroy {
       return `${firstLetter}${middleStars}${lastLetter}`;
     });
     
-    this.processedTokensHTML = processedTokens; // Salviamo i token splittati per intercettarli uno ad uno nell'HTML
+    this.processedTokensHTML = processedTokens.filter(t => t !== '');
     this.obscuredText = processedTokens.join('');
   }
 
-  /**
-   * Helper per capire se un token visualizzato fa parte delle parole sbloccate con successo
-   */
   isTokenGuessed(token: string): boolean {
+    if (!token) return false;
     const cleanWord = token.trim().toLowerCase();
-    // Escludiamo punteggiatura, spazi o parole corte che di base non erano bloccate
     if (!cleanWord || cleanWord.length <= 3 || /^(\s+|,|\.|\(|\)|;|:|-|'|’)+$/.test(cleanWord) || /^\d+$/.test(cleanWord)) {
       return false;
     }
@@ -219,7 +223,7 @@ export class Game implements OnInit, OnDestroy {
     this.attempts++;
 
     if (!this.guessedWords.includes(userGuess)) {
-      if (this.originalText.toLowerCase().includes(userGuess)) {
+      if (this.originalText?.toLowerCase().includes(userGuess)) {
         this.guessedWords.push(userGuess);
         this.updateGameText();
 
@@ -247,7 +251,7 @@ export class Game implements OnInit, OnDestroy {
     if (!inputElement) return;
 
     const userTitleGuess = inputElement.value.trim().toLowerCase();
-    const correctTitle = this.originalTitle.trim().toLowerCase();
+    const correctTitle = (this.originalTitle || '').trim().toLowerCase();
 
     if (!userTitleGuess) {
       alert('Inserisci un titolo prima di provare a risolvere!');
@@ -306,6 +310,7 @@ export class Game implements OnInit, OnDestroy {
   }
 
   private startTimer() {
+    this.stopTimer(); // Evita timer duplicati sovrapposti
     this.timerId = setInterval(() => {
       this.secondsElapsed++;
       this.formatTime();
@@ -316,6 +321,7 @@ export class Game implements OnInit, OnDestroy {
   private stopTimer() {
     if (this.timerId) {
       clearInterval(this.timerId);
+      this.timerId = null;
     }
   }
 
