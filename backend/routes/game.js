@@ -44,8 +44,10 @@ router.get('/load/:username', async (req, res) => {
         };
         const result = await pool.query(loadGameQuery);
         
+        // 🛠️ MODIFICATO: Se non c'è una partita, rispondiamo 200 con null.
+        // In questo modo Angular capisce che non c'è nulla da caricare senza lanciare errori di risorsa mancante.
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: 'Nessuna partita in corso trovata per questo utente.' });
+            return res.status(200).json(null);
         }
 
         console.log(`Partita caricata dal DB per l'utente: ${username}`);

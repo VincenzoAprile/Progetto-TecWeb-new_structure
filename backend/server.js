@@ -19,7 +19,10 @@ app.use(express.json());
 // Colleghiamo i file esterni aggiungendo i prefissi corretti
 app.use('/api', authRouter);        // Gestirà /api/register e /api/login
 app.use('/api/game', gameRouter);   // Gestirà /api/game/save, /api/game/load/:username, /api/game/clear/:username
-app.use('/api', statsRouter);        // Gestirà /api/game/finish, /api/leaderboard, /api/game-collection
+
+// 🛠️ DOPPIA MAPPATURA: Risolve i 404 sia della partita che di classifica/raccolta
+app.use('/api/game', statsRouter);  // Gestisce /api/game/finish richiesto da Angular
+app.use('/api', statsRouter);       // Ripristina /api/leaderboard e /api/game-collection per il frontend
 
 // Avvio del server
 app.listen(PORT, () => {

@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const pool = require('../db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_segreto_omg_123!';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // MIDDLEWARE DI VERIFICA JWT LOCALIZZATO
 function autenticaToken(req, res, next) {

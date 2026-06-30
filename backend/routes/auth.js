@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const pool = require('../db'); // Importa la connessione centralizzata
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_segreto_omg_123!';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // --- 1. API REGISTRAZIONE ---
 router.post('/register', async (req, res) => {
